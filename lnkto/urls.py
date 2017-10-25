@@ -16,6 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from shortener.views import lnkto_redirect_view, LnktoCBView,test_view
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls), #update this url for live site
+    url(r'^about3/$', test_view),
+    url(r'^(?P<shortcode>[\w-]+){6,15}$', lnkto_redirect_view),
+    url(r'^b/(?P<shortcode>[\w-]+){6,15}$', LnktoCBView.as_view()),
 ]

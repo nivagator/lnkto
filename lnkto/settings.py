@@ -26,8 +26,11 @@ SECRET_KEY = '8wb)_%!8%=rbl!l#enugb&u7g$(0sm=#s457&e(8re*kdk5fuv'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '192.168.1.236'
-]
+    '192.168.1.236',
+    # 'dev01',
+    'www.dev01.com',
+    'dev01.com',
+    ]
 
 
 # Application definition
@@ -39,12 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
+    #third party
+    'django_hosts',
+
     #custom app
     'shortener',
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,9 +59,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 ROOT_URLCONF = 'lnkto.urls'
+ROOT_HOSTCONF = 'lnkto.hosts'
+DEFAULT_HOST = 'www'
+DEFAULT_REDIRECT_URL = "http://www.dev01.com:8000" #kirr.co
 
 TEMPLATES = [
     {
@@ -123,3 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+SHORTCODE_MAX = 15
+SHORTCODE_MIN = 6
