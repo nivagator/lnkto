@@ -70,7 +70,7 @@ DEFAULT_REDIRECT_URL = "http://www.dev01.com:8000" #kirr.co
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
