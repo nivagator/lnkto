@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
-
+# from django.core.urlresolvers import reverse
+from django_hosts.resolvers import reverse
 # Create your models here.
 from .validators import validate_dot_com, validate_url
 from .utils import code_generator, create_shortcode
@@ -29,15 +30,21 @@ class LnktoURL(models.Model):
     updated     = models.DateTimeField(auto_now=True) #everytime the model is saved
     timestampo  = models.DateTimeField(auto_now_add=True) #when model is created
     active      = models.BooleanField(default=True)
-    # empty_datetime = models.DateTimeField(auto)
+   
 
     objects = LnktoURLManager()
-    # some_random = LnktoURLManager
+   
 
     def save(self, *args, **kwargs):
         if self.shortcode is None or self.shortcode == "":
             self.shortcode = create_shortcode(self)
+        if not "http" in self.url:
+            self.url = "http://" + self.url
         super(LnktoURL, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.url)
+
+    def get_short_url(self):
+        url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
+        return url_path

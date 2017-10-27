@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, Http404
 from django.views import View
 from .forms import SubmitUrlForm
+from analytics.models import ClickEvent
 # Create your views here.
 
 from .models import LnktoURL
@@ -17,44 +18,31 @@ class HomeView(View):
 
     def post(self, request, *args, **kwargs):
         form = SubmitUrlForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data.get("url"))
         context = {
             "title": "lnkto.co",
             "form": form,
         }
-        return render(request, "shortener/home.html", context)
+        template = "shortener/home.html"
+        if form.is_valid():
+            new_url = form.cleaned_data.get("url")
+            obj, created = LnktoURL.objects.get_or_create(url=new_url)
+            context = {
+                "object": obj,
+                "created": created,
+            }
+            if created:
+                template = "shortener/success.html"
+            else:
+                template = "shortener/already-exists.html"
+        
+        return render(request, template, context)
 
 
-class LnktoCBView(View):
+class UrlRedirectView(View):
     def get(self, request, shortcode=None, *args, **kwargs):
-        obj = get_object_or_404(LnktoURL, shortcode=shortcode)
+        qs = LnktoURL.objects.filter(shortcode__iexact=shortcode)
+        if qs.count() != 1 and not qs.exists():
+            raise Http404
+        obj = qs.first()
+        print(ClickEvent.objects.create_event(obj))
         return HttpResponseRedirect(obj.url)
-
-
-
-
-'''
-def lnkto_redirect_view(request, shortcode=None, *args, **kwargs):
-    # print(args)
-    # print(kwargs)
-    # print(shortcode)
-    
-    obj = get_object_or_404(LnktoURL, shortcode=shortcode)
-    
-
-    # try:
-    #     obj = LnktoURL.objects.get(shortcode=shortcode)
-    # except: 
-    #     obj = LnktoURL.objects.all().first()
-     
-    #  obj_url = None
-    # qs = LnktoURL.objects.filter(shortcode__iexact=shortcode.upper())
-    # if qs.exists() and qs.count() == 1:
-    #     obj = qs.first()
-    #     obj_url = obj.url
-
-
-    return HttpResponse("hello {sc}".format(sc=obj.url))
-
-'''

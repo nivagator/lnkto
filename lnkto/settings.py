@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     #custom app
     'shortener',
+    'analytics',
 ]
 
 MIDDLEWARE = [
@@ -64,8 +65,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'lnkto.urls'
 ROOT_HOSTCONF = 'lnkto.hosts'
+
 DEFAULT_HOST = 'www'
 DEFAULT_REDIRECT_URL = "http://www.dev01.com:8000" #kirr.co
+PARENT_HOST = 'dev01.com:8000'
 
 TEMPLATES = [
     {

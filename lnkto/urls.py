@@ -16,10 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from shortener.views import HomeView, LnktoCBView
+from shortener.views import HomeView, UrlRedirectView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls), #update this url for live site
     url(r'^$', HomeView.as_view()),
-    url(r'^(?P<shortcode>[\w-]+){6,15}$', LnktoCBView.as_view()),
+    url(r'^(?P<shortcode>[\w-]+)/$', UrlRedirectView.as_view(), name='scode'),
 ]
