@@ -27,9 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.1.236',
-    # 'dev01',
     'www.dev01.com',
     'dev01.com',
+    'www.lnkto.co',
+    'lnkto.co',
+
     ]
 
 
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,15 +63,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 ROOT_URLCONF = 'lnkto.urls'
 ROOT_HOSTCONF = 'lnkto.hosts'
-
 DEFAULT_HOST = 'www'
-DEFAULT_REDIRECT_URL = "http://www.dev01.com:8000" #kirr.co
-PARENT_HOST = 'dev01.com:8000'
+DEFAULT_REDIRECT_URL = "http://www.lnkto.co:8000" #lnkto.co
+PARENT_HOST = 'lnkto.co:8000'
 
 TEMPLATES = [
     {
