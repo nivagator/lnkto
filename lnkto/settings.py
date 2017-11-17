@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     'dev01.com',
     'www.lnkto.co',
     'lnkto.co',
+    'blog.dev01.com',
     ]
 
 
@@ -69,8 +70,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'lnkto.urls'
 ROOT_HOSTCONF = 'lnkto.hosts'
 DEFAULT_HOST = 'www'
-DEFAULT_REDIRECT_URL = "http://www.lnkto.co:8000" #lnkto.co
-PARENT_HOST = 'lnkto.co:8000'
+DEFAULT_REDIRECT_URL = "http://www.dev01.com:8000" #http://lnkto.co:8000" #lnkto.co
+PARENT_HOST = 'dev01.com:8000' # lnkto.co:8000'
 
 TEMPLATES = [
     {

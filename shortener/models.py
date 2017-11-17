@@ -46,5 +46,7 @@ class LnktoURL(models.Model):
         return str(self.url)
 
     def get_short_url(self):
-        url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
+        # url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
+        url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, scheme='http')
+        print('url_path - models.py - get_short_url',url_path)
         return url_path
