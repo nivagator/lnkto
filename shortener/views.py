@@ -25,6 +25,19 @@ class HomeView(View):
         template = "shortener/home.html"
         if form.is_valid():
             new_url = form.cleaned_data.get("url")
+            # 2017-11-16
+            # at this point, if the url entered in the form does not contain 'http://' 
+            # but the database already contains a the contatination of 'http://' + url
+            # it will create a new url shortcode for the identical url.
+            # the save function in models is where the http is added. 
+            print(new_url)
+            # 2017-11-16
+            # we must check for and add the http if it is missing BEFORE running 
+            # the get_or_create function to prevent duplicate urls from being entered            
+            if not new_url.startswith("http"):
+                new_url = "http://" + new_url
+            # new url now contains http://
+            print(new_url)
             obj, created = LnktoURL.objects.get_or_create(url=new_url)
             context = {
                 "object": obj,

@@ -31,7 +31,6 @@ ALLOWED_HOSTS = [
     'dev01.com',
     'www.lnkto.co',
     'lnkto.co',
-
     ]
 
 
